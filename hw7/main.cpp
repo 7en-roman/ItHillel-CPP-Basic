@@ -18,15 +18,17 @@ private:
 
 public:
     SimpleList() = default;
+
     ~SimpleList()
     {
-        Hillel* current = head;
-        while (current != nullptr)
+        while (head != nullptr)
         {
-            Hillel* temp = current;
-            current = current->next;
-            delete temp;
+            Hillel* next = head->next;
+            delete head;
+            head = next;
         }
+        tail = nullptr;
+        size = 0;
     }
 
     void Add(int isValue)
@@ -54,6 +56,7 @@ public:
             if (tail == nullptr)
                 tail = newHillel;
         }
+
         else
         {
             Hillel* current = head;
@@ -82,6 +85,11 @@ public:
 
     int GetValue(unsigned int uiIndex) const
     {
+        if (uiIndex >= size) {
+            std::cerr << "Error: Index out of bounds in GetValue\n";
+            return -1;
+        }
+
         Hillel* current = head;
         for (unsigned int i = 0; i < uiIndex; ++i)
         {
